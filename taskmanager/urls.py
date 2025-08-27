@@ -15,26 +15,18 @@ Including another URLconf
     2. Add a URL to urlpatterns:  path('blog/', include('blog.urls'))
 """
 from django.contrib import admin
-from django.urls import path , include
-from rest_framework import routers
-from tasks.views import TaskViewSet
+from django.urls import path, include
 from django.http import HttpResponse
 from rest_framework.authtoken.views import obtain_auth_token
 
-#home view
+#  home view
 def home(request):
     return HttpResponse("Welcome to Task Manager API")
 
-router = routers.DefaultRouter()
-router.register(r'tasks', TaskViewSet)
-
-
-
 urlpatterns = [
-     path('', home),  #home route
-    path('admin/', admin.site.urls),
-    path('api/', include(router.urls)),
-    path('api-auth/', include('rest_framework.urls')),  # for login in browsable API
-    path('api/', include('tasks.urls')), 
-    path('api-token-auth/', obtain_auth_token, name='api_token_auth'),
+    path("", home, name="home"),  # Home route
+    path("admin/", admin.site.urls),
+    path("api/", include("tasks.urls")),  # Delegate to tasks app
+    path("api-auth/", include("rest_framework.urls")),  # Browsable API login/logout
+    path("api-token-auth/", obtain_auth_token, name="api_token_auth"),  # Token auth
 ]
