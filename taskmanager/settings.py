@@ -41,9 +41,25 @@ INSTALLED_APPS = [
     'rest_framework',  
     'rest_framework.authtoken', 
     'tasks', 
+
     'django_filters',
     'drf_yasg',
+
+    'rest_framework.authtoken',
+
 ]
+
+REST_FRAMEWORK = {
+    'DEFAULT_AUTHENTICATION_CLASSES': [
+        'rest_framework.authentication.TokenAuthentication',
+        'rest_framework.authentication.SessionAuthentication', #enables /api-auth/ login
+    ],
+    'DEFAULT_PERMISSION_CLASSES': [
+        'rest_framework.permissions.IsAuthenticated',           # everything requires auth by default
+    ],
+}
+
+LOGIN_REDIRECT_URL = '/'
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',

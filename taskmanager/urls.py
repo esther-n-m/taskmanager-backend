@@ -19,6 +19,7 @@ from django.urls import path, include
 from django.http import HttpResponse
 from rest_framework.authtoken.views import obtain_auth_token
 
+
 # Swagger
 from rest_framework import permissions
 from drf_yasg.views import get_schema_view
@@ -44,5 +45,17 @@ urlpatterns = [
     path("api-auth/", include("rest_framework.urls")),
     path("api-token-auth/", obtain_auth_token, name="api_token_auth"),
     path("swagger/", schema_view.with_ui('swagger', cache_timeout=0), name="schema-swagger-ui"),
+]
+#  home view
+def home(request):
+    return HttpResponse("Welcome to Task Manager API")
+
+urlpatterns = [
+    path("", home, name="home"),  # Home route
+    path("admin/", admin.site.urls),
+    path("api/", include("tasks.urls")),  # Delegate to tasks app
+    path("api-auth/", include("rest_framework.urls")),  # Browsable API login/logout
+    path("api-token-auth/", obtain_auth_token, name="api_token_auth"),  # Token auth
+
 ]
 

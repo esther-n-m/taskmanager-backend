@@ -1,11 +1,15 @@
 from rest_framework import serializers
 from .models import Task
+
 from django.utils import timezone
 from datetime import date
+
+
 
 class TaskSerializer(serializers.ModelSerializer):
     class Meta:
         model = Task
+
         fields = '__all__'
         read_only_fields = ('user', 'created_at', 'updated_at', 'completed_at')
 
@@ -39,3 +43,6 @@ class TaskSerializer(serializers.ModelSerializer):
             validated_data['completed_at'] = None
 
         return super().update(instance, validated_data)
+
+        fields = '__all__'
+

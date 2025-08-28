@@ -1,4 +1,5 @@
 
+
 from rest_framework import viewsets, status, filters
 from rest_framework.permissions import IsAuthenticated
 from rest_framework.response import Response
@@ -50,3 +51,24 @@ class TaskViewSet(viewsets.ModelViewSet):
         task.completed_at = None
         task.save(update_fields=['status', 'completed_at', 'updated_at'])
         return Response(self.get_serializer(task).data, status=status.HTTP_200_OK)
+
+# Create your views here.
+from rest_framework import viewsets
+from rest_framework.permissions import IsAuthenticated
+from .models import Task
+from .serializers import TaskSerializer
+
+
+
+class TaskViewSet(viewsets.ModelViewSet):
+    serializer_class = TaskSerializer
+    permission_classes = [IsAuthenticated]
+    
+    def get_queryset(self):
+        # Only return tasks belonging to the logged-in user
+        return Task.objects.filter(user=self.request.user).order_by('-created_at')
+
+    def perform_create(self, serializer):
+        # Automatically set the user when creating a task
+        serializer.save(user=self.request.user)
+
