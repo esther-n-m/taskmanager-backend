@@ -15,8 +15,34 @@ Including another URLconf
     2. Add a URL to urlpatterns:  path('blog/', include('blog.urls'))
 """
 from django.contrib import admin
-from django.urls import path
+from django.urls import path, include
+from django.http import HttpResponse
+from rest_framework.authtoken.views import obtain_auth_token
+
+# Swagger
+from rest_framework import permissions
+from drf_yasg.views import get_schema_view
+from drf_yasg import openapi
+
+def home(request):
+    return HttpResponse("Welcome to Task Manager API")
+
+schema_view = get_schema_view(
+    openapi.Info(
+        title="Task Manager API",
+        default_version='v1',
+        description="API for managing tasks",
+    ),
+    public=True,
+    permission_classes=[permissions.AllowAny],
+)
 
 urlpatterns = [
-    path('admin/', admin.site.urls),
+    path("", home, name="home"),
+    path("admin/", admin.site.urls),
+    path("api/", include("tasks.urls")),   # <--- use app urls
+    path("api-auth/", include("rest_framework.urls")),
+    path("api-token-auth/", obtain_auth_token, name="api_token_auth"),
+    path("swagger/", schema_view.with_ui('swagger', cache_timeout=0), name="schema-swagger-ui"),
 ]
+
