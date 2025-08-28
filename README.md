@@ -2,54 +2,90 @@
 
 A simple backend project built with **Django REST Framework (DRF)** for managing tasks.  
 This project is part of my Capstone Project.
+It lets you create, update, delete, and manage tasks — with authentication, filtering, and API docs powered by Swagger.
 
 ---
 
-## Week 1 Progress ✅
-- Set up project structure  
-- Created and activated virtual environment  
-- Installed Django & DRF (listed in `requirements.txt`)  
-- Created initial Django project (`taskmanager`) and app (`tasks`)  
-- Initialized Git and pushed project to GitHub  
+## Features
 
----
+Create, read, update, and delete tasks (CRUD).
 
-## Week 2 Progress ✅
-- Implemented **Task CRUD operations**:
-  - Create, Read, Update, Delete tasks
-  - Each task has:
-    - Title
-    - Description
-    - Due Date
-    - Priority Level (Low, Medium, High)
-    - Status (Pending, Completed)
-- Added **validations**:
-  - Due date must be in the future
-  - Restrict priority level to allowed choices
-- Created **Task serializer, viewset, and routes**
-- Registered API endpoints in `urls.py`
-- Added database migrations for the Task model
-- Added `.gitignore` file to exclude virtual environment, `__pycache__`, `.sqlite3`, etc.
+Token-based authentication.
 
----
+Mark tasks as complete/incomplete.
 
-## Next Steps (Week 3 Plan)
-- Implement **User Authentication** (Django auth / JWT)
-- Link tasks to users (ownership: each user manages their own tasks only)
-- Add permission checks (no user can access another user’s tasks)
-- Create endpoints to mark tasks **complete/incomplete** with timestamp
-- Add task filters & sorting (status, priority, due date)
+Filter tasks by status or due date.
+
+API documentation with Swagger.
 
 ---
 
 ## Tech Stack
-- Python 3
-- Django 5
-- Django REST Framework
+
+Django 5
+
+Django REST Framework
+
+SQLite (dev database)
 
 ---
 
-## How to Run (so far)
-1. Clone this repository:
-   ```bash
-   git clone https://github.com/esther-n-m/taskmanager-backend.git
+## Setup
+
+Clone the repo:
+
+git clone https://github.com/esther-n-m/taskmanager-backend.git
+cd taskmanager-backend
+
+
+Create & activate a virtual environment:
+
+python -m venv venv
+source venv/Scripts/activate   # Windows
+
+
+Install dependencies:
+
+pip install -r requirements.txt
+
+
+Run migrations & start server:
+
+python manage.py migrate
+python manage.py runserver
+
+---
+
+## Authentication
+
+Login via: /api-token-auth/
+
+Then include token in headers:
+
+Authorization: Token your_token_here
+
+---
+
+## API Endpoints
+
+GET /api/tasks/ → list tasks
+
+POST /api/tasks/ → create task
+
+GET /api/tasks/{id}/ → task details
+
+PUT/PATCH /api/tasks/{id}/ → update task
+
+DELETE /api/tasks/{id}/ → delete task
+
+POST /api/tasks/{id}/complete/ → mark complete
+
+POST /api/tasks/{id}/incomplete/ → mark incomplete
+
+GET /swagger/ → API docs
+
+---
+
+## Reflection
+
+Building this project helped me deepen my understanding of Django REST Framework, authentication, and API design. It’s a solid foundation for real-world backend development.
